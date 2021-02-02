@@ -16,7 +16,7 @@ export default function Transactor(provider, gasPrice, etherscan) {
       const network = await provider.getNetwork();
       console.log("network", network);
       const options = {
-        dappId: "78351ed8-721d-4219-a31a-6f3eddc19853", // GET YOUR OWN KEY AT https://account.blocknative.com
+        dappId: "0b58206a-f3c0-4701-a62f-73c7243e8c77", // GET YOUR OWN KEY AT https://account.blocknative.com
         system: "ethereum",
         networkId: network.chainId,
         // darkMode: Boolean, // (default: false)
@@ -46,7 +46,7 @@ export default function Transactor(provider, gasPrice, etherscan) {
             tx.gasPrice = gasPrice || parseUnits("4.1", "gwei");
           }
           if (!tx.gasLimit) {
-            tx.gasLimit = hexlify(300000);// doubled it
+            tx.gasLimit = hexlify(120000);
           }
           console.log("RUNNING TX", tx);
           result = await signer.sendTransaction(tx);

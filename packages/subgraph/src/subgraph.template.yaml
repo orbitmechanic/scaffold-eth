@@ -3,36 +3,23 @@ schema:
   file: ./src/schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: Noun
+    name: YourContract
     network: localhost
     source:
-      address: '{{NounAddress}}'
-      abi: Noun
+      address: '{{YourContractAddress}}'
+      abi: YourContract
       startBlock: 1
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        - Will
+        - Purpose
+        - Sender
       abis:
-        - name: Noun
-          file: ./abis/Noun.json
+        - name: YourContract
+          file: ./abis/YourContract.json
       eventHandlers:
-        - event: NewWillCreated(address,address,address,uint256,uint256,uint256)
-          handler: handleNewWillCreated
-        - event: WillDeFunded(address,uint256,uint256)
-          handler: handleWillDeFunded
-        - event: WillFunded(address,uint256,uint256)
-          handler: handleWillFunded
-        - event: TokensDepositedToWill(address,address,uint256,uint256)
-          handler: handleTokensDepositedToWill
-        - event: TokensWithdrawnFromWill(address,address,uint256,uint256)
-          handler: handleTokensWithdrawnFromWill
-        - event: BenifitedTokens(address,address,uint256,uint256)
-          handler: handleBenifitedTokens
-        - event: BeneficiarySet(uint256,address)
-          handler: handleBeneficiarySet
-        - event: DeadlineUpdated(uint256,uint256,uint256)
-          handler: handleDeadlineUpdated
+        - event: SetPurpose(address,string)
+          handler: handleSetPurpose
       file: ./src/mapping.ts
