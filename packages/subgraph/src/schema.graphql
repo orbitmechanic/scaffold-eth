@@ -1,12 +1,8 @@
-type Will @entity {
+type Purpose @entity {
   id: ID!
-  index:BigInt!
-  owner: Bytes!
-  value:BigInt
-  beneficiary: Bytes!
-  deadline: BigInt!
-  token:Bytes
-  tokenBalance:BigInt
+  sender: Sender!
+  purpose: String!
+  createdAt: BigInt!
   transactionHash: String!
 }
 
