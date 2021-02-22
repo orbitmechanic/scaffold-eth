@@ -6,10 +6,8 @@ use(solidity);
 
 describe("My Dapp", function () {
   let myContract;
-  let addresslist;
 
   beforeEach(async function () {
-    addressList = await ethers.getSigners();
     const Ownable = await ethers.getContractFactory("Ownable");
     myContract = await Ownable.deploy();
   });
@@ -20,24 +18,35 @@ describe("My Dapp", function () {
     });
 
     it("Should know they're not the owner.", async function () {
+      const addressList = await ethers.getSigners();
       expect(await myContract.connect(addressList[1]).amIOwner()).to.equal(
         false
       );
     });
 
     it("Should cancel prior ownership when transfering.", async function () {
+      const addressList = await ethers.getSigners();
       await myContract.transferOwnership(addressList[1].address);
       expect(await myContract.amIOwner()).to.equal(false);
     });
 
     it("Should aquire new ownership when transferring", async function () {
+      const addressList = await ethers.getSigners();
       await myContract.transferOwnership(addressList[1].address);
       expect(
         await myContract.connect(addressList[1].address).amIOwner()
       ).to.equal(true);
     });
 
+    it("Should emit event when transferring.", async function () {
+      const addressList = await ethers.getSigners();
+      await expect(myContract.transferOwnership(addressList[1].address))
+        .to.emit(myContract, "OwnershipTransferred")
+        .withArgs(addressList[1].address);
+    });
+
     it("Should not transfer if non-owner requests transfer.", async function () {
+      const addressList = await ethers.getSigners();
       await expect(
         myContract
           .connect(addressList[1].address)
@@ -46,6 +55,7 @@ describe("My Dapp", function () {
     });
 
     it("Should not transfer ownership back to the owner.", async function () {
+      const addressList = await ethers.getSigners();
       await expect(myContract.transferOwnership(addressList[0].address)).to.be
         .reverted;
     });

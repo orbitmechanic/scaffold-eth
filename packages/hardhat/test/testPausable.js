@@ -12,7 +12,7 @@ describe("My Dapp", function () {
     myContract = await Ownable.deploy();
   });
 
-  describe("Ownable", function () {
+  describe("Pausable", function () {
     it("Should deploy unpaused.", async function () {
       expect(await myContract.isPaused()).to.equal(false);
     });
