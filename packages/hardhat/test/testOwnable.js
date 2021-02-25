@@ -4,12 +4,12 @@ const { solidity } = require("ethereum-waffle");
 
 use(solidity);
 
-describe("My Dapp", function () {
+describe("Testing", function () {
   let myContract;
 
   beforeEach(async function () {
-    const Ownable = await ethers.getContractFactory("Ownable");
-    myContract = await Ownable.deploy();
+    const contractFactory = await ethers.getContractFactory("Mortal");
+    myContract = await contractFactory.deploy();
   });
 
   describe("Ownable", function () {

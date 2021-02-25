@@ -4,12 +4,12 @@ const { solidity } = require("ethereum-waffle");
 
 use(solidity);
 
-describe("My Dapp", function () {
+describe("Testing", function () {
   let myContract;
 
   beforeEach(async function () {
-    const Ownable = await ethers.getContractFactory("Pausable");
-    myContract = await Ownable.deploy();
+    const contractFactory = await ethers.getContractFactory("Mortal");
+    myContract = await contractFactory.deploy();
   });
 
   describe("Pausable", function () {
@@ -17,7 +17,13 @@ describe("My Dapp", function () {
       expect(await myContract.isPaused()).to.equal(false);
     });
 
-    it("Should pause if unpaused.", async function () {
+    it("Should emit pause event when pausing.", async function () {
+      await expect(myContract.Pause())
+        .to.emit(myContract, "PauseEvent")
+        .withArgs("Paused.");
+    });
+
+    it("Should report paused after pausing.", async function () {
       await myContract.Pause();
       expect(await myContract.isPaused()).to.equal(true);
     });
@@ -31,6 +37,13 @@ describe("My Dapp", function () {
       await myContract.Pause();
       await myContract.Unpause();
       expect(await myContract.isPaused()).to.equal(false);
+    });
+
+    it("Should emit unpause event when unpausing.", async function () {
+      await myContract.Pause();
+      await expect(myContract.Unpause())
+        .to.emit(myContract, "PauseEvent")
+        .withArgs("Unpaused.");
     });
 
     it("Should not unpause if unpaused.", async function () {

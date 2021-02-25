@@ -4,22 +4,30 @@ const { solidity } = require("ethereum-waffle");
 
 use(solidity);
 
-describe("My Dapp", function () {
+describe("Testing", function () {
   let myContract;
 
   beforeEach(async function () {
-    const Ownable = await ethers.getContractFactory("Mortal");
-    myContract = await Ownable.deploy();
+    const contractFactory = await ethers.getContractFactory("Mortal");
+    myContract = await contractFactory.deploy();
   });
 
-  describe("Ownable", function () {
-    it("Should should suicide for the owner.", async function () {
-      expect(await myContract.amIOwner()).to.equal(true);
+  describe("Mortal", function () {
+    it("Should not suicide if unpaused.", async function () {
+      await expect(myContract.implode()).to.be.reverted;
     });
 
-    it("Should shouldn't suicide for not the owner.", async function () {
+    it("Should suicide for the owner when paused.", async function () {
+      await myContract.Pause();
+      await expect(myContract.implode())
+        .to.emit(myContract, "imploding")
+        .withArgs("!MOOB");
+    });
+
+    it("Should not suicide for not the owner when paused.", async function () {
       const addressList = await ethers.getSigners();
-      expect(await myContract.amIOwner()).to.equal(true);
+      await myContract.Pause();
+      await expect(myContract.connect(addressList[1]).implode()).to.be.reverted;
     });
   });
 });
