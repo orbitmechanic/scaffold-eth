@@ -11,6 +11,8 @@ contract Accountable is Pausable {
         address sender, 
         address reciever,
         uint256 amount);
+
+    event Rebalanced(uint256 amount);
     
     modifier costs(uint256 cost){
         require(msg.value >= cost, 'Insufficient funds sent.');
@@ -25,9 +27,9 @@ contract Accountable is Pausable {
         return _uint['balance'] ;
     }
     
-    function credit(address from, uint256 ammount) internal {
-        _uint['balance']  = SafeMath.add(_uint['balance'] , ammount);
-        emit receipt(from, address(this), ammount);
+    function credit(address from, uint256 amount) internal {
+        _uint['balance']  = SafeMath.add(_uint['balance'] , amount);
+        emit receipt(from, address(this), amount);
     }
     
     function debt(address payable to, uint256 amount) internal Unpaused {
@@ -50,5 +52,6 @@ contract Accountable is Pausable {
     // Square up the books.
     function rebalance() public onlyOwner Paused {
         _uint['balance'] = address(this).balance;
+        emit rebalanced(_uint['balance']);
     }
 }

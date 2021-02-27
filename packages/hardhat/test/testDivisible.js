@@ -8,7 +8,7 @@ describe("Testing", function () {
   let contractFactory;
   let myContract;
 
-  describe("Dvisible", function () {
+  describe("Divisible", function () {
     it("Should initialize to 8 decimals when told to.", async function () {
       contractFactory = await ethers.getContractFactory("Divisible");
       myContract = await contractFactory.deploy(8);
