@@ -34,9 +34,6 @@ contract Noun is DethLock {
             switch result
             case 0 {revert(ptr,size)}
             default {return(ptr,size)}
-        }
-        
+        }      
     }
-
-
 }

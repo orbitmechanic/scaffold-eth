@@ -17,6 +17,7 @@ describe("Testing", function () {
       expect(await myContract.contractBalance()).to.equal(0);
     });
 
+    /*
     it("Should absorb 1.2 stray eth.", async function () {
       const addressList = await ethers.getSigners();
       // <Transmit 1.2 ETH from addressList[1] to myContract.deployedAddress();>
@@ -31,7 +32,7 @@ describe("Testing", function () {
           to myContract.deployedAddress();>)
           .to.emit(myContract.receipt)
           .withArgs(addressList[1],1.2);
-    });
+    }); */
 
     it("Should not send for externals.", async function () {
       const addressList = await ethers.getSigners();
