@@ -10,7 +10,7 @@ contract Transactable is Pausable {
         address recipiant, 
         uint256 amount);
     
-    modifier costs(uint256 cost){
+    modifier Costs(uint256 cost){
         require(msg.value >= cost, 'Insufficient funds sent.');
         _;
     }
