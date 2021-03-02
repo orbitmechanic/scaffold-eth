@@ -1,9 +1,9 @@
 pragma solidity 0.8.0;
-import './Accountable.sol';
+import './inherited/Transactable.sol';
 
 // SPDX-License-Identifier: UNLICENSED
 
-contract DethLock is Accountable {
+contract DethLock is Transactable {
 
     // Dethlock core: ------------------------------------
     struct will{

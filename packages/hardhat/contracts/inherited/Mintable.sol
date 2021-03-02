@@ -1,27 +1,27 @@
 pragma solidity 0.8.0;
 import "hardhat/console.sol";
-import './included/SafeMath.sol';
-import './included/Storage.sol';
+import '../included/SafeMath.sol';
+import './Pausable.sol';
 
 // SPDX-License-Identifier: UNLICENSED
 
-contract Mintable is Storage {
+contract Mintable is Pausable {
     
     event priceSet2(uint256 newPrice);
 
     event minted(address to, uint256 amount);
 
-    constructor (uint256 price){
-        _uint['price'] = price;
+    constructor (){
+        _uint['price'] = 1; // Start at pairity.
         _uint['totalSupply'] = 0; // in existance
-        if (_uint['supplyCap'] == 0){
-            unchecked{_uint['supplyCap'] = uint256(0) - 1};
+        if (_uint['supplyCap'] == 0){ // in case of Cappable.
+            unchecked{_uint['supplyCap'] = uint256(0) - 1;}
         }
     }
 
-    function setPrice(uint456 _newPrice) public onlyOwner {
+    function setPrice(uint256 _newPrice) public onlyOwner {
         _uint['price'] = _newPrice;
-        emit newPrice(_newPrice);
+        emit priceSet2(_newPrice);
     }
 
     function price() public view returns (uint256) {
@@ -34,11 +34,11 @@ contract Mintable is Storage {
 
     function mint() public payable Unpaused returns(uint256){
         uint256 amountPurchased = SafeMath.div(msg.value,_uint['price']);
-        uint256 previousAmount = intMappings['balances'][msg.sender];
+        uint256 previousAmount = _intMappings['balances'][msg.sender];
         uint256 newAmount = SafeMath.add(previousAmount,amountPurchased);
         require(newAmount <= _uint['supplyCap'],'Exceeds total supply cap.');
         _uint['totalSuppy'] = SafeMath.add(_uint['totalSuppy'],amountPurchased);
-        intMappings['balances'][msg.sender] = newAmount;
+        _intMappings['balances'][msg.sender] = newAmount;
         emit minted(msg.sender,amountPurchased);
         return newAmount;
     }
@@ -47,7 +47,7 @@ contract Mintable is Storage {
         return _intMappings['balances'][somebody];
     }
 
-    function balance() public view returns(uint256 balance) {
+    function mybalance() public view returns(uint256 balance) {
         return _intMappings['balances'][msg.sender];
     }
 }

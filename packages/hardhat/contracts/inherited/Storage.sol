@@ -16,7 +16,7 @@ contract Storage {
     mapping (string =>  string) _string;
     mapping (string => bytes32) _bytes;
 
-    mapping (string => mapping (address payable => int256)) _intMappings;
+    mapping (string => mapping (address => uint256)) _intMappings;
 
     // Not fully supported yet:
     mapping (string => fixed256x2) _fixed2;

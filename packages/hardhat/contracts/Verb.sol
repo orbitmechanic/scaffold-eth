@@ -1,5 +1,5 @@
 pragma solidity 0.8.0;
-import './inherited/DethLock.sol';
+import './DethLock.sol';
 import './included/SafeMath.sol';
 
 // SPDX-License-Identifier: UNLICENSED
@@ -99,7 +99,6 @@ contract Verb is DethLock {
         newWill.tokenAddress = _tokenAddress;
         if (msg.value > 0) {
             newWill.ethBalance = SafeMath.add(newWill.ethBalance,msg.value);
-            credit(msg.sender, msg.value);
         }
         _masterWillList.push(newWill);
         _owners[_owner].push(_masterWillList.length);
@@ -128,7 +127,6 @@ contract Verb is DethLock {
         newWill.owner = owner;
         if (msg.value > 0) {
             newWill.ethBalance = SafeMath.add(newWill.ethBalance,msg.value);
-            credit(msg.sender, msg.value);
         }
         emit WillCreated(owner, _masterWillList.length, msg.value);
         return _masterWillList.length;
@@ -155,7 +153,6 @@ contract Verb is DethLock {
         (uint256 index) payable public returns (bool){
         _masterWillList[index].ethBalance =
             SafeMath.add(_masterWillList[index].ethBalance,msg.value);
-        credit(msg.sender, msg.value);
         emit WillFunded(msg.sender,index,msg.value);
         return true;
     }
@@ -170,7 +167,7 @@ contract Verb is DethLock {
             'Will does not have that much ETH.');
         _masterWillList[index].ethBalance =
             SafeMath.sub(_masterWillList[index].ethBalance,value);
-        debt(toAddress, value);
+        send(toAddress, value);
         emit WillDeFunded(msg.sender, index, value);
         return true;
     }
@@ -185,7 +182,7 @@ contract Verb is DethLock {
             'Will does not have that much ETH.');
         _masterWillList[index].ethBalance =
             SafeMath.sub(_masterWillList[index].ethBalance,value);
-        debt(toAddress, value);
+        send(toAddress, value);
         emit WillDeFunded(msg.sender, index, value);
         return true;
     }
