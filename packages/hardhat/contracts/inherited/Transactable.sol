@@ -26,4 +26,9 @@ contract Transactable is Pausable {
         to.transfer(amount);  // reverts on fail.
         emit receipt(to, amount);
     }
+
+    // testing hook
+    function blnc() public view returns(uint256) {
+        return address(this).balance;
+    }
 }

@@ -14,29 +14,9 @@ describe("Testing", function () {
 
   describe("Transactable", function () {
     it("Should have a zero balance to start.", async function () {
-      expect(await myContract.getB alance()).to.equal(0);
+      const balance = await myContract.blnc();
+      await expect(balance).to.equal(0x00);
     });
 
-    /*
-    it("Should absorb 1.2 stray eth.", async function () {
-      const addressList = await ethers.getSigners();
-      // <Transmit 1.2 ETH from addressList[1] to myContract.deployedAddress();>
-      expect(myContract.balance()).to.equal(1.2);
-    });
-
-    it("Should emitt a recipt when paid.", async function () {});
-      const addressList = await ethers.getSigners();
-      expect( 
-        <Transmit 1.2 ETH 
-          from addressList[1] 
-          to myContract.deployedAddress();>)
-          .to.emit(myContract.receipt)
-          .withArgs(addressList[1],1.2);
-    }); */
-
-    it("Should not send for externals.", async function () {
-      const addressList = await ethers.getSigners();
-      await expect(myContract.debt(addressList[1], 200)).to.be.reverted;
-    });
   });
 });
