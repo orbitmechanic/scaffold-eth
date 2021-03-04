@@ -1,11 +1,11 @@
 pragma solidity 0.8.0;
 import "hardhat/console.sol";
 import '../included/SafeMath.sol';
-import './Pausable.sol';
+import './Transactable.sol';
 
 // SPDX-License-Identifier: UNLICENSED
 
-contract Mintable is Pausable {
+contract Fungible is Transactable {
     
     event priceSet2(uint256 newPrice);
 
