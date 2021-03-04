@@ -14,7 +14,7 @@ describe("Testing", function () {
 
   describe("Transactable", function () {
     it("Should have a zero balance to start.", async function () {
-      expect(await myContract.balance()).to.equal(0);
+      expect(await myContract.getB alance()).to.equal(0);
     });
 
     /*
