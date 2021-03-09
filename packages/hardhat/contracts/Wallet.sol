@@ -28,6 +28,7 @@ contract Wallet {
     event RqstApprvd(uint _id, uint _approvals, address _approver);
     event RqstUnApprvd(uint _id, uint _approvals, address _approver);
     event RqstSent(uint _id);
+    event Receipt(address recipiant, uint256 amount);
     
     //Should only allow people in the signers list to continue the execution.
     modifier onlySigners(){
@@ -41,9 +42,15 @@ contract Wallet {
         }
         limit = _limit;
     }
+
+    function isSigner(address amI) public view returns (bool) {
+        return signers[amI];
+    }
     
-    //Empty function
-    function deposit() public payable {}
+    // Absorb ETH from fallback position.
+    receive() external payable {
+        emit Receipt(msg.sender, msg.value);
+    }
     
     //Create an instance of the Transfer struct and add it to the transferRequests array
     function createTransfer(uint _amount, address payable _receiver) public onlySigners {
